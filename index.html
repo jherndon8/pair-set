@@ -5,7 +5,12 @@
     </head>
     <body>
         <h1>Pair set</h1>
+        <h2>
+            Create groups of three or more cards that have an even total number of all shapes
+        </h2>
+        <h3><span>Difficulty:</span>
         <input type="range" min="4" max="6" value="5" class="slider" id="numShapes" onchange="changeNumShapes(this.value)">
+        </h3>
         <div id="container">
             <div class="row">
                 <div class="card"></div>
@@ -29,9 +34,10 @@
             </div>
         </div>
         <button onclick="submit()">
-            Submit pair set
+            Submit 
         </button>
         <div id="result"></div>
+        <h1 id="foundSets"></h1>
         <script src="./script.js"></script>
     </body>
 </html>

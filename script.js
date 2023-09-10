@@ -36,6 +36,8 @@ function init() {
     for (card of cards) {
         newCard(card)
     }
+    document.getElementById('foundSets').innerText = "";
+    document.getElementById('result').innerText = "";
     clearSelected();
 }
 
@@ -60,19 +62,26 @@ function submit() {
     }
     const selected = Array.from(cards)
         .filter(card => card.classList.contains('selected'))
-    const isValid = !selected
+    const check = selected
         .map(card => card.value)
-        .reduce((a, b) => a^b);
-    if (isValid) {
+        .reduce((a, b) => a^b)
+    if (!check) {
         total += selected.length
         document.getElementById('result').innerText = "You got one of length "+ selected.length+"! You now have a total of "+ total + "!"
+        const text = [];
         selected.forEach(card => {
+            text.push(card.innerText);
             newCard(card);
             card.classList.remove('selected');
             });
+        document.getElementById('foundSets').innerHTML += text.join(', ') + '<br>'
     }
     else {
-        document.getElementById('result').innerText = "Not a valid set"
+        const unpaired = Object.keys(shapes).filter(shape => shape & check).map(shape => shapes[shape]) 
+        console.log(unpaired)
+        document.getElementById('result').innerHTML = "Not a valid set. Unpaired shapes:<br><h2>"
+        + unpaired.join('')
+        + '</h2>'
     }
 }
 
