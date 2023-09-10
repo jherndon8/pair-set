@@ -68,6 +68,9 @@ function submit() {
     if (!check) {
         total += selected.length
         document.getElementById('result').innerText = "You got one of length "+ selected.length+"! You now have a total of "+ total + "!"
+        if (total === (1 << numShapes) - 1) {
+            document.getElementById('result').innerText += " You got them all!" 
+        }
         const text = [];
         selected.forEach(card => {
             text.push(card.innerText);
