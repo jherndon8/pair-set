@@ -1,5 +1,6 @@
 var cards = document.getElementsByClassName('card')
 var deck;
+var numShapes = 5;
 var total = 0;
 var selected = [];
 shapes = {
@@ -20,11 +21,17 @@ function shuffleArray(array) {
         array[j] = temp;
     }
 }
+function changeNumShapes(value) {
+    numShapes = value
+    init();
+}
 
 function init() {
-    deck = Array.from(Array(63).keys());
-    deck[0] = 63;
+    deck = Array.from(Array((1 << numShapes) - 1).keys());
+    console.log(deck, numShapes);
+    deck[0] = (1<<numShapes) - 1;
     shuffleArray(deck);
+    console.log(deck);
 
     for (card of cards) {
         newCard(card)
@@ -32,11 +39,12 @@ function init() {
 }
 
 function newCard(card) {
+    console.log('jth')
     var number = deck.pop();
     card.value = number
     card.innerText = '';
     var shape = 1
-    for (var i = 0; i < 6; i++) {
+    for (var i = 0; i < numShapes; i++) {
         if (shape & number) {
             card.innerText = card.innerText + shapes[shape]
         }
@@ -69,4 +77,4 @@ function submit() {
 
 
 init()
-Array.from(cards).forEach(function (card) {card.addEventListener('click', () => {card.classList.toggle('selected')})});
+Array.from(cards).forEach(function (card) {card.addEventListener('click', () => {if (card.value) {card.classList.toggle('selected')}})});
