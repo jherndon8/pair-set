@@ -1,8 +1,7 @@
 var cards = document.getElementsByClassName('card')
 var deck;
 var numShapes = 5;
-var total = 0;
-var selected = [];
+var total;
 shapes = {
     1: "\u25CF",
     2: "\u25A0",
@@ -27,6 +26,7 @@ function changeNumShapes(value) {
 }
 
 function init() {
+    total = 0;
     deck = Array.from(Array((1 << numShapes) - 1).keys());
     console.log(deck, numShapes);
     deck[0] = (1<<numShapes) - 1;
@@ -36,6 +36,7 @@ function init() {
     for (card of cards) {
         newCard(card)
     }
+    clearSelected();
 }
 
 function newCard(card) {
@@ -75,6 +76,9 @@ function submit() {
     }
 }
 
+function clearSelected() {
+    Array.from(document.getElementsByClassName('selected')).forEach(c => c.classList.remove('selected'))
+}
 
 init()
 Array.from(cards).forEach(function (card) {card.addEventListener('click', () => {if (card.value) {card.classList.toggle('selected')}})});
