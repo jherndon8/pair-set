@@ -1,0 +1,30 @@
+h1 {
+    text-align: center;
+}
+
+#container {
+    width: 100%;
+    font-family: cursive;
+}
+
+.row {
+    width: 100%;
+    display: flex;
+    flex: flex-column;
+}
+
+
+.card {
+    text-align: center;
+    border: 1px solid black;
+    height: 100px;
+    line-height: 100px;
+    width: 100%;
+    margin: 5px;
+    font-size: 40px;
+}
+
+.selected {
+    border: 5px solid black;
+    margin: 1px;
+}
