@@ -3,9 +3,9 @@ var deck;
 var numShapes = 5;
 var total;
 shapes = {
-    1: "\u25CF",
+    1: "\u25B4",
     2: "\u25A0",
-    4: "\u25B4",
+    4: "\u25CF",
     8: "\u25CB",
     16: "\u25A1",
     32: "\u25B5",
@@ -52,7 +52,7 @@ function newCard(card) {
     var shape = 1
     for (var i = 0; i < numShapes; i++) {
         if (shape & number) {
-            card.innerText = addText(shape, card.innerText);
+            card.innerText = addText(numShapes < 5 ? shape * 2 : shape, card.innerText);
         }
         shape = shape << 1;
     }
