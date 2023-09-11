@@ -90,7 +90,7 @@ function submit() {
         document.getElementById('foundSets').innerHTML += text.join(', ') + '<br>'
     }
     else {
-        const unpaired = Object.keys(shapes).filter(shape => shape & check).map(shape => shapes[shape]) 
+        const unpaired = Object.keys(shapes).filter(shape => shape & check).map(shape => shapes[numShapes < 5 ? shape * 2 : shape]) 
         document.getElementById('result').innerHTML = "Not a valid set. Unpaired shapes:<br><h2>"
         + unpaired.join('')
         + '</h2>'
