@@ -9,7 +9,8 @@
             Create groups of three or more cards that have an even total number of all shapes
         </h2>
         <h3><span>Difficulty:</span>
-        <input type="range" min="4" max="6" value="5" class="slider" id="numShapes" onchange="changeNumShapes(this.value)">
+        <input type="range" min="4" max="8" value="5" class="slider" id="numShapes" onchange="changeNumShapes(this.value)">
+        <span id="difficulty">Medium</span>
         </h3>
         <div id="container">
             <div class="row">
@@ -35,6 +36,9 @@
         </div>
         <button onclick="submit()">
             Submit 
+        </button>
+        <button onclick="clearSelected()">
+            Clear
         </button>
         <div id="result"></div>
         <h1 id="foundSets"></h1>

@@ -8,7 +8,9 @@ shapes = {
     4: "\u25B4",
     8: "\u25CB",
     16: "\u25A1",
-    32: "\u25B5"
+    32: "\u25B5",
+    64: "\u2605",
+    128: "\u2606"
 }
 
 /* Randomize array in-place using Durstenfeld shuffle algorithm */
@@ -22,6 +24,7 @@ function shuffleArray(array) {
 }
 function changeNumShapes(value) {
     numShapes = value
+    document.getElementById('difficulty').innerText = ['Beginner','Medium','Hard','Insane','Impossible'][numShapes- 4]
     init();
 }
 
@@ -49,10 +52,17 @@ function newCard(card) {
     var shape = 1
     for (var i = 0; i < numShapes; i++) {
         if (shape & number) {
-            card.innerText = card.innerText + shapes[shape]
+            card.innerText = addText(shape, card.innerText);
         }
         shape = shape << 1;
     }
+}
+
+function addText(shape, curText) {
+    if (shape === 64) {
+        return shapes[shape] + curText
+    }
+    return curText + shapes[shape]
 }
 
 function submit() {
@@ -81,7 +91,6 @@ function submit() {
     }
     else {
         const unpaired = Object.keys(shapes).filter(shape => shape & check).map(shape => shapes[shape]) 
-        console.log(unpaired)
         document.getElementById('result').innerHTML = "Not a valid set. Unpaired shapes:<br><h2>"
         + unpaired.join('')
         + '</h2>'

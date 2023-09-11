@@ -2,6 +2,11 @@ body {
     text-align: center;
 }
 
+#difficulty {
+    width: 100px;
+    display: inline-block;
+}
+
 #container {
     width: 100%;
     font-family: cursive;
@@ -14,8 +19,8 @@ body {
 }
 
 button {
-    margin-top: 50px;
-    margin-bottom: 25px;
+    margin: 50px;
+    display: inline;
     font-size: 40px;
 }
 
@@ -36,4 +41,8 @@ h1 {
 .selected {
     border: 5px solid black;
     margin: 1px;
+}
+
+#foundSets {
+    font-family: cursive;
 }
