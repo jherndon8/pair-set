@@ -91,8 +91,8 @@ function submit() {
     }
     else {
         const unpaired = Object.keys(shapes).filter(shape => shape & check).map(shape => shapes[numShapes < 5 ? shape * 2 : shape]) 
-        document.getElementById('result').innerHTML = "Not a valid set. Unpaired shapes:<br><h2>"
-        + unpaired.join('')
+        document.getElementById('result').innerHTML = "Not a valid set. " + (document.getElementById('helper').checked ? "Unpaired shapes:<br><h2>"
+        + unpaired.join('') : "")
         + '</h2>'
     }
 }
