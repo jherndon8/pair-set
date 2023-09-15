@@ -1,6 +1,8 @@
 const express = require("express")
 const bodyParser = require('body-parser');
+const redis = require('redis');
 const app = express();
+var client = redis.createClient(process.env.REDISCLOUD_URL, {no_ready_check: true});
 
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json())
@@ -11,10 +13,25 @@ app.get("/", (req, res) => {
     res.send("hello world")
 });
 
-app.post("/addScore", (req, res) => {
+setTimeout(async ()=>
+{
+    await client.connect();
+});
+
+app.get("/foo", async (req, res) => {
+    console.log('jth 1')
+    const val = await client.get('foo');
+    console.log('jth 2', val);
+    res.send(val)
+});
+
+app.post("/addScore", async (req, res) => {
     console.log(req.body)
     scores.push(req.body.score)
-    res.json({result :scores})
+    if (req.bar) {
+        await client.set('foo', req.bar)
+    }
+    res.json({result :scores, foo: client.get('foo')})
 });
 
 
