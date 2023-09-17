@@ -6,6 +6,7 @@ var startTime;
 var score;
 var highScores;
 var assisted;
+const modes = ['Beginner','Medium','Hard','Insane','Impossible']
 shapes = {
     1: "\u25B4",
     2: "\u25A0",
@@ -18,7 +19,7 @@ shapes = {
 }
 
 let Http = new XMLHttpRequest();
-let url='https://pairsetscores-a53e7345ea4f.herokuapp.com/score?mode=Medium';
+let url='https://pairsetscores-a53e7345ea4f.herokuapp.com/score?mode=' + modes.join(',');
 Http.open("GET", url);
 Http.send();
 
@@ -30,9 +31,15 @@ Http.onload = (e) => {
 
 function displayScores() {
     console.log('displaying scores...', highScores)
-    const innerHtml = highScores.length ? highScores.map(val => "<tr><td>" + val[1]+ "</td><td>" + val[0] / 1000+"</td></tr>").join('') : ''
+    const modeScores = highScores[modes[numShapes - 4]]
+    const innerHtml = modeScores.length ? modeScores.map(val => "<tr><td>" + val[1]+ "</td><td>" + val[0] / 1000+"</td></tr>").join('') : ''
     document.getElementById('highScores').innerHTML = innerHtml
 
+}
+
+function toggleDarkMode() {
+    document.body.classList.toggle('darkmode');
+    Array.from(cards).forEach(card => card.classList.toggle('darkmode'));
 }
 
 /* Randomize array in-place using Durstenfeld shuffle algorithm */
@@ -46,18 +53,9 @@ function shuffleArray(array) {
 }
 function changeNumShapes(value) {
     numShapes = value
-    document.getElementById('difficulty').innerText = ['Beginner','Medium','Hard','Insane','Impossible'][numShapes- 4]
+    document.getElementById('difficulty').innerText = modes[numShapes- 4]
     init();
-    let Http = new XMLHttpRequest();
-    let url='https://pairsetscores-a53e7345ea4f.herokuapp.com/score?mode='+ document.getElementById('difficulty').innerText;
-    Http.open("GET", url);
-    Http.send();
-
-    Http.onload = (e) => {
-        console.log('results:', Http.responseText)
-        highScores=JSON.parse(Http.responseText)
-        displayScores()
-    }
+    displayScores()
 }
 
 function init() {
@@ -81,6 +79,10 @@ function init() {
 function newCard(card) {
     console.log('jth')
     var number = deck.pop();
+    setCard(card, number);
+}
+
+function setCard(card, number) {
     card.value = number
     card.innerText = '';
     var shape = 1
@@ -89,6 +91,23 @@ function newCard(card) {
             card.innerText = addText(numShapes < 5 ? shape * 2 : shape, card.innerText);
         }
         shape = shape << 1;
+    }
+}
+
+function shuffleBoard() {
+    const values = Array.from(cards).map(card => card.value);
+    const selected = {};
+    for (card of cards) {
+        selected[card.value] = card.classList.contains('selected')
+    }
+    shuffleArray(values)
+    for (var i = 0; i < 12; i++) {
+        setCard(cards[i], values[i]);
+        if (selected[values[i]]) {
+            cards[i].classList.add('selected')
+        } else {
+            cards[i].classList.remove('selected')
+        }
     }
 }
 
@@ -114,8 +133,9 @@ function submit() {
         document.getElementById('result').innerText = "You got one of length "+ selected.length+"! You now have a total of "+ total + "!"
         if (total === (1 << numShapes) - 1) {
             score = new Date() - startTime
+            const modeScores = highScores[modes[numShapes-4]]
             document.getElementById('result').innerText += " You got them all in " + score / 1000 + " seconds!" 
-            if (highScores.length < 10 || score < highScores[highScores.length - 1][0] && !assisted) {
+            if (modeScores.length < 10 || score < modeScores[highScores.length - 1][0] && !assisted) {
                 let initials = prompt("You got a top 10  score of " + score +"! Enter your initials", "AAA")
                 if (initials) {
                     initials = initials.substr(0, 3)
@@ -123,10 +143,12 @@ function submit() {
                     let url='https://pairsetscores-a53e7345ea4f.herokuapp.com/addScore';
                     Http.open("POST", url);
                     Http.setRequestHeader("Content-Type", "application/json");
-                    Http.send(JSON.stringify({'name': initials, 'time': score, 'mode': ['Beginner','Medium','Hard','Insane','Impossible'][numShapes- 4]}));
+                    Http.send(JSON.stringify({'name': initials, 'time': score, 'mode': modes[numShapes- 4]}));
 
                     Http.onload = (e) => {
-                      console.log('results:', JSON.parse(Http.responseText))
+                        highScores[modes[numShapes-4]] = JSON.parse(Http.responseText)
+                        displayScores()
+                      
                     }
                 }
             }

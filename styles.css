@@ -2,6 +2,11 @@ body {
     text-align: center;
 }
 
+body.darkmode {
+    color: #FFF;
+    background-color: #000
+}
+
 table {
     text-align: center;
     margin-left: auto;
@@ -45,10 +50,19 @@ h1 {
     cursor: pointer;
 }
 
+.card.darkmode {
+    border: 1px solid white;
+}
+
+.selected.darkmode {
+    border: 5px solid white;
+}
+
 .selected {
     border: 5px solid black;
     margin: 1px;
 }
+
 
 #foundSets {
     font-family: cursive;
