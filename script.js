@@ -30,7 +30,9 @@ Http.onload = (e) => {
 
 function displayScores() {
     console.log('displaying scores...', highScores)
-    document.getElementById('highScores').innerHTML = highScores.length ? highScores.map(val => "<tr><td>" + val[1]+ "</td><td>" + val[0] / 1000+"</td></tr>") : ''
+    const innerHtml = highScores.length ? highScores.map(val => "<tr><td>" + val[1]+ "</td><td>" + val[0] / 1000+"</td></tr>")[0] : ''
+    document.getElementById('highScores').innerHTML = innerHtml
+
 }
 
 /* Randomize array in-place using Durstenfeld shuffle algorithm */
