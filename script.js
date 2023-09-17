@@ -30,7 +30,7 @@ Http.onload = (e) => {
 
 function displayScores() {
     console.log('displaying scores...', highScores)
-    const innerHtml = highScores.length ? highScores.map(val => "<tr><td>" + val[1]+ "</td><td>" + val[0] / 1000+"</td></tr>")[0] : ''
+    const innerHtml = highScores.length ? highScores.map(val => "<tr><td>" + val[1]+ "</td><td>" + val[0] / 1000+"</td></tr>").join('') : ''
     document.getElementById('highScores').innerHTML = innerHtml
 
 }
