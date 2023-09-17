@@ -8,13 +8,13 @@
         <h2>
             Create groups of three or more cards that have no shapes represented an odd number of times
         </h2>
+        <input type="checkbox" id="helper">
+        <label for="helper"> Check to show unpaired shapes of invalid sets (any hint given disqualifies from leaderboard time) </label>
+        <br>
+        <br>
         <h3><span>Difficulty:</span>
         <input type="range" min="4" max="8" value="5" class="slider" id="numShapes" onchange="changeNumShapes(this.value)">
         <span id="difficulty">Medium</span>
-        <br>
-        <br>
-        <input type="checkbox" id="helper">
-        <label for="helper"> Check to show unpaired shapes of invalid sets (any hint given disqualifies from leaderboard time) </label>
         </h3>
         <div id="container">
             <div class="row">
