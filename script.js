@@ -5,6 +5,7 @@ var total;
 var startTime;
 var score;
 var highScores;
+var assisted;
 shapes = {
     1: "\u25B4",
     2: "\u25A0",
@@ -17,7 +18,7 @@ shapes = {
 }
 
 let Http = new XMLHttpRequest();
-let url='https://pairsetscores-a53e7345ea4f.herokuapp.com/score?mode=medium';
+let url='https://pairsetscores-a53e7345ea4f.herokuapp.com/score?mode=Medium';
 Http.open("GET", url);
 Http.send();
 
@@ -29,7 +30,7 @@ Http.onload = (e) => {
 
 function displayScores() {
     console.log('displaying scores...', highScores)
-    document.getElementById('highScores').innerHTML = "<tr><th>Initials</th><th>Time (seconds)</th></tr>"+highScores.map(val => "<tr><td>" + val[1]+ "</td><td>" + val[0] / 1000+"</td></tr>")
+    document.getElementById('highScores').innerHTML = highScores.length ? highScores.map(val => "<tr><td>" + val[1]+ "</td><td>" + val[0] / 1000+"</td></tr>") : ''
 }
 
 /* Randomize array in-place using Durstenfeld shuffle algorithm */
@@ -52,12 +53,13 @@ function changeNumShapes(value) {
 
     Http.onload = (e) => {
         console.log('results:', Http.responseText)
-        highScores=JSON.parse(JSON.parse(Http.responseText))
+        highScores=JSON.parse(Http.responseText)
         displayScores()
     }
 }
 
 function init() {
+    assisted = false;
     startTime = new Date();
     total = 0;
     deck = Array.from(Array((1 << numShapes) - 1).keys());
@@ -109,9 +111,9 @@ function submit() {
         total += selected.length
         document.getElementById('result').innerText = "You got one of length "+ selected.length+"! You now have a total of "+ total + "!"
         if (total === (1 << numShapes) - 1) {
-            document.getElementById('result').innerText += " You got them all!" 
             score = new Date() - startTime
-            if (highScores.length === 0 || score < highScores[highScores.length - 1][0]) {
+            document.getElementById('result').innerText += " You got them all in " + score / 1000 + " seconds!" 
+            if (highScores.length === 0 || score < highScores[highScores.length - 1][0] && !assisted) {
                 let initials = prompt("Enter your initials", "AAA")
                 if (initials) {
                     initials = initials.substr(0, 3)
@@ -137,9 +139,12 @@ function submit() {
     }
     else {
         const unpaired = Object.keys(shapes).filter(shape => shape & check).map(shape => shapes[numShapes < 5 ? shape * 2 : shape]) 
-        document.getElementById('result').innerHTML = "Not a valid set. " + (document.getElementById('helper').checked ? "Unpaired shapes:<br><h2>"
-        + unpaired.join('') : "")
-        + '</h2>'
+        assist = document.getElementById('helper').checked;
+        console.log(assist)
+        document.getElementById('result').innerHTML = "Not a valid set. " + (assist ? "Unpaired shapes:<br><h2>"
+        + unpaired.join('') : ""
+        + '</h2>');
+        assisted = assisted || assist
     }
 }
 
