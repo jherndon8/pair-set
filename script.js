@@ -113,7 +113,7 @@ function submit() {
         if (total === (1 << numShapes) - 1) {
             score = new Date() - startTime
             document.getElementById('result').innerText += " You got them all in " + score / 1000 + " seconds!" 
-            if (highScores.length === 0 || score < highScores[highScores.length - 1][0] && !assisted) {
+            if (highScores.length < 10 || score < highScores[highScores.length - 1][0] && !assisted) {
                 let initials = prompt("Enter your initials", "AAA")
                 if (initials) {
                     initials = initials.substr(0, 3)
