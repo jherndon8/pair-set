@@ -59,10 +59,9 @@ function changeNumShapes(value) {
 }
 
 function init() {
-     for (var i = 0; i < numShapes; i++) {
-        if (shape & number) {
+     for (var shape = 1; shape < 1 << numShapes; shape = shape << 1) {
             document.getElementById('allShapes').innerText = addText(numShapes < 5 ? shape * 2 : shape, card.innerText);
-        }
+        
         shape = shape << 1;
     }
     assisted = false;
