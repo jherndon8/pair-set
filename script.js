@@ -60,7 +60,7 @@ function changeNumShapes(value) {
 
 function init() {
     document.getElementById('allShapes').innerText = ''
-     for (var shape = 1; shape <= 1 << numShapes; shape = shape << 1) {
+     for (var shape = 1; shape < 1 << numShapes; shape = shape << 1) {
             document.getElementById('allShapes').innerText = addText(numShapes < 5 ? shape * 2 : shape, document.getElementById('allShapes').innerText);
     }
     assisted = false;
