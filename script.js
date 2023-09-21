@@ -139,7 +139,7 @@ function submit() {
             score = new Date() - startTime
             const modeScores = highScores[modes[numShapes-4]]
             document.getElementById('result').innerText += " You got them all in " + score / 1000 + " seconds!" 
-            if (modeScores.length < 10 || score < modeScores[highScores.length - 1][0] && !assisted) {
+            if ((modeScores.length < 10 || score < modeScores[highScores.length - 1][0]) && !assisted) {
                 let initials = prompt("You got a top 10  score of " + (score / 1000) + "! Enter your initials", "AAA")
                 if (initials) {
                     initials = initials.substr(0, 3)
